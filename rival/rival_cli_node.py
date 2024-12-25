@@ -48,24 +48,28 @@ def screen_send_expect(screen_name, exp):
     try:
         with open(f_name, "w") as f:
             f.write(exp)
-        subprocess.run(
-            f"screen -S {screen_name} -X stuff 'expect ./{f_name}\\r' > {log}",
-            capture_output=True,
+        out = subprocess.run(
+            f"screen -S {screen_name} -X stuff 'expect ./{f_name}\\r'",
             check=True,
+            capture_output=True,
+            text=True,
             shell=True,
         )
-        with open(log, "r") as f:
-            output = f.read()
-        subprocess.run(["rm", f_name])
-        subprocess.run(["rm", f"{screen_name}.log"])
-        return output
+        return out.stdout
+
     except Exception as e:
         try:
             subprocess.run(["rm", f_name])
-            subprocess.run(["rm", f"{screen_name}.log"])
+            # subprocess.run(["rm", f"{screen_name}.log"])
         except:
             pass
         raise e
+    finally:
+        try:
+            subprocess.run(["rm", f_name])
+            # subprocess.run(["rm", f"{screen_name}.log"])
+        except:
+            pass
 
 
 def rivalzDockerWithProxy_wrapped(screen_name):
@@ -77,6 +81,17 @@ spawn ./rivalzDockerWithProxy.sh
 
 expect "Do you want to use a proxy? (Y/N):"
 send "N\\r"
+
+set last_line ""
+
+expect {
+    -re "(.*)" {
+        set last_line $expect_out(1,string)
+        exp_continue
+    }
+}
+
+puts "$last_line"
 
 expect eof
 """
