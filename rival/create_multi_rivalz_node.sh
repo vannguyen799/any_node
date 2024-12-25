@@ -20,8 +20,13 @@ chmod +x create_rivalz_node.sh
 for i in $(seq 1 $node_number); do
   name="rival-$(date +%s)"
   echo "$i screen-$name start"
-  screen -dmS "$name" bash -c "echo -e '$wallet_address\n$storage_value' | ./create_rivalz_node.sh"
+  screen -dmS "$name" bash -c "echo -e '$wallet_address\n$storage_value' | ./create_rivalz_node.sh; sleep infinity"
 
   echo "$(date +%Y-%m-%dT%H:%M:%S),$name,$wallet_address,$storage_value" >> "$log_file"
   sleep 0.3
 done
+
+
+wait
+
+echo "Done"
