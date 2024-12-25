@@ -55,6 +55,8 @@ def setup_node(wallet_address, storage_value):
     child.sendline(storage_value)
 
     save_log(session_name,wallet_address)
+    print(f'SUCCESS: {session_name}' )
+
 
 
 async def main():
@@ -66,6 +68,8 @@ async def main():
         tasks = [executor.submit(setup_node, wallet_address, storage_value) for _ in range(node_number)]
         await asyncio.gather(*tasks)
 
+if __name__ == '__main__':
+    asyncio.run(main())
 
 
 
