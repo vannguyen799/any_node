@@ -76,8 +76,9 @@ def setup_node(wallet_address, storage_value):
         save_log(screen_name, wallet_address)
         print(f"SUCCESS: {screen_name}")
     except Exception as e:
-        print(cmd)
+        print("ERROR: ", screen_name, e)
         close_screen(screen_name)
+
         raise e
 
 
