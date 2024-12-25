@@ -29,6 +29,7 @@ if not os.path.exists("rivalzDockerWithProxy.sh"):
 
 def new_screen(screen_name=None):
     screen_name = screen_name or "rival-" + datetime.now().strftime("%Y%m%d%H%M%S")
+
     subprocess.run(["screen", "-dmS", screen_name])
     return screen_name
 
