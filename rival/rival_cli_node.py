@@ -65,7 +65,8 @@ async def main():
     node_number = int(n)
 
     with ThreadPoolExecutor(max_workers=10) as executor:
-        tasks = [executor.submit(setup_node, wallet_address, storage_value) for _ in range(node_number)]
+        loop = asyncio.get_running_loop()
+        tasks = [loop.run_in_executor(executor, setup_node, wallet_address, storage_value) for _ in range(node_number)]
         await asyncio.gather(*tasks)
 
 if __name__ == '__main__':
