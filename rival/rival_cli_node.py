@@ -43,8 +43,8 @@ def screen_send_cmd(session_name, cmd):
 
 
 def screen_send_expect(screen_name, exp):
-    f_name = f"/tmp/{screen_name}_expect_script.exp"
-    log = f"/tmp/{screen_name}.log"
+    f_name = f"./tmp/{screen_name}_expect_script.exp"
+    log = f"./tmp/{screen_name}.log"
     try:
         with open(f_name, "w") as f:
             f.write(exp)
