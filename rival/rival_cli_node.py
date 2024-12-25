@@ -38,8 +38,8 @@ def new_screen(screen_name=None):
         text=True,
         shell=True,
     )
-    print('Create screen "' + screen_name + '"')
-
+    print('Create screen "' + screen_name + '", screen -r ' + screen_name)
+    time.sleep(2)
     return screen_name
 
 
