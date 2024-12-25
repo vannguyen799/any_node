@@ -56,26 +56,28 @@ def screen_send_expect(screen_name, exp):
     try:
         with open(f_name, "w") as f:
             f.write(exp)
+        cmd = f"screen -S {screen_name} -X stuff 'expect ./{f_name} > {log}\\r ' "
         out = subprocess.run(
-            f"screen -S {screen_name} -X stuff 'expect ./{f_name}\\r'",
+            cmd,
             check=True,
             capture_output=True,
             text=True,
             shell=True,
         )
-        return out.stdout
+        with open(log, "r") as f:
+            return f.read()
 
     except Exception as e:
         try:
             subprocess.run(["rm", f_name])
-            # subprocess.run(["rm", f"{screen_name}.log"])
+            subprocess.run(["rm", f"{screen_name}.log"])
         except:
             pass
         raise e
     finally:
         try:
             subprocess.run(["rm", f_name])
-            # subprocess.run(["rm", f"{screen_name}.log"])
+            subprocess.run(["rm", f"{screen_name}.log"])
         except:
             pass
 
