@@ -102,6 +102,7 @@ expect eof
     # child.sendline("N")
     # child.expect(pexpect.EOF)
     # output = child.before.decode("utf-8")
+    print(output)
     cmd = output.strip().split("\n")[-1]
     if not cmd.startswith("docker run -it --name"):
         raise Exception("failed to run rivalzDockerWithProxy.sh got last line:\n" + cmd)
