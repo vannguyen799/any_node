@@ -43,20 +43,29 @@ def screen_send_cmd(session_name, cmd):
 
 
 def screen_send_expect(screen_name, exp):
-    f_name = f"{screen_name}_expect_script.exp"
-    with open(f_name, "w") as f:
-        f.write(exp)
-    subprocess.run(
-        f"screen -S {screen_name} -X stuff 'expect ./{f_name}\\r' > {screen_name}.log",
-        capture_output=True,
-        check=True,
-        shell=True,
-    )
-    with open(f"{screen_name}.log", "a") as f:
-        output = f.read()
-    subprocess.run(["rm", f_name])
-    subprocess.run(["rm", f"{screen_name}.log"])
-    return output
+    f_name = f"/tmp/{screen_name}_expect_script.exp"
+    log = f"/tmp/{screen_name}.log"
+    try:
+        with open(f_name, "w") as f:
+            f.write(exp)
+        subprocess.run(
+            f"screen -S {screen_name} -X stuff 'expect ./{f_name}\\r' > {log}",
+            capture_output=True,
+            check=True,
+            shell=True,
+        )
+        with open(log, "r") as f:
+            output = f.read()
+        subprocess.run(["rm", f_name])
+        subprocess.run(["rm", f"{screen_name}.log"])
+        return output
+    except Exception as e:
+        try:
+            subprocess.run(["rm", f_name])
+            subprocess.run(["rm", f"{screen_name}.log"])
+        except:
+            pass
+        raise e
 
 
 def rivalzDockerWithProxy_wrapped(screen_name):
