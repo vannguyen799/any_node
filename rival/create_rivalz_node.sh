@@ -15,15 +15,9 @@ fi
 
 
 
-#last_line="${last_line//-it/-i}"
 
 echo "start $last_line"
 
-#printf "$wallet_address\n\n$storage_value" | $last_line
-
-#docker exec -it $last_line /bin/bash -c "echo -e \"$wallet_address\\n\\n$storage_value\" | $last_line"
-
-# echo -e "0x811ef9e1e2B96b59a32E5A69E765eb96f341A3a0\n1\n300\n" | docker run -i --name rivalz-docker-18 rivalz-docker-18
 
 expect -c "
 spawn $last_line
