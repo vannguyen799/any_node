@@ -31,7 +31,15 @@ if not os.path.exists("rivalzDockerWithProxy.sh"):
 
 def new_screen(screen_name=None):
     screen_name = screen_name or f"rival-{datetime.now().timestamp()}"
-    subprocess.run(["screen", "-dmS", screen_name], check=True)
+    subprocess.run(
+        ["screen", "-dmS", screen_name],
+        check=True,
+        capture_output=True,
+        text=True,
+        shell=True,
+    )
+    print('Create screen "' + screen_name + '"')
+
     return screen_name
 
 
