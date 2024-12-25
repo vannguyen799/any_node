@@ -31,22 +31,25 @@ if not os.path.exists("rivalzDockerWithProxy.sh"):
 
 
 def new_screen(screen_name=None):
-    screen_name = screen_name or f"rival-{datetime.now().timestamp()}"
+    screen_name = screen_name or f"rival-{int(time.time())}"
+    cmd = f"screen -dmS {screen_name}"
     subprocess.run(
-        ["screen", "-dmS", screen_name],
+        cmd,
         check=True,
         capture_output=True,
         text=True,
         shell=True,
     )
     print('Create screen "' + screen_name + '", screen -r ' + screen_name)
+    print(cmd)
     time.sleep(2)
     return screen_name
 
 
 def screen_send_cmd(screen_name, cmd, log_txt_wait="", timeout=180):
-    log = f"./tmp/{screen_name}.{datetime.now().timestamp()}.log"
+    log = f"./tmp/{screen_name}.{datetime.now().timestamp().__int__()}.log"
     cmd = f'screen -S "{screen_name}" -X stuff "{cmd} > {log}\n"'
+    print(cmd)
     try:
         subprocess.run(
             cmd,

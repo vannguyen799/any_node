@@ -1,0 +1,1 @@
+curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/rival_cli_node.py & python3 rival_cli_node.py
