@@ -31,8 +31,7 @@ if not os.path.exists("rivalzDockerWithProxy.sh"):
 
 def new_screen(screen_name=None):
     screen_name = screen_name or f"rival-{datetime.now().timestamp()}"
-
-    pexpect.spawn(f"screen -dmS '{screen_name}'").wait()
+    subprocess.run(["screen", "-dmS", screen_name], check=True)
     return screen_name
 
 
@@ -43,12 +42,42 @@ def screen_send_cmd(session_name, cmd):
     return child
 
 
+def screen_send_expect(screen_name, exp):
+    f_name = f"{screen_name}_expect_script.exp"
+    with open(f_name, "w") as f:
+        f.write(exp)
+    subprocess.run(
+        f"screen -S {screen_name} -X stuff 'expect ./{f_name}\\r' > {screen_name}.log",
+        capture_output=True,
+        check=True,
+        shell=True,
+    )
+    with open(f"{screen_name}.log", "a") as f:
+        output = f.read()
+    subprocess.run(["rm", f_name])
+    subprocess.run(["rm", f"{screen_name}.log"])
+    return output
+
+
 def rivalzDockerWithProxy_wrapped(screen_name):
-    child = screen_send_cmd(screen_name, "./rivalzDockerWithProxy.sh")
-    child.expect("Do you want to use a proxy? (Y/N):")
-    child.sendline("N")
-    child.expect(pexpect.EOF)
-    output = child.before.decode("utf-8")
+
+    expect_script = """
+#!/usr/bin/expect
+
+spawn ./rivalzDockerWithProxy.sh
+
+expect "Do you want to use a proxy? (Y/N):"
+send "N\\r"
+
+expect eof
+"""
+
+    output = screen_send_expect(screen_name, expect_script)
+    # child = screen_send_cmd(screen_name, "./rivalzDockerWithProxy.sh")
+    # child.expect("Do you want to use a proxy? (Y/N):")
+    # child.sendline("N")
+    # child.expect(pexpect.EOF)
+    # output = child.before.decode("utf-8")
     cmd = output.strip().split("\n")[-1]
     if not cmd.startswith("docker run -it --name"):
         raise Exception("failed to run rivalzDockerWithProxy.sh got last line:\n" + cmd)
@@ -67,19 +96,35 @@ def save_log(*args):
 
 def setup_node(wallet_address, storage_value):
     screen_name = new_screen()
-    cmd = ""
     try:
         cmd = rivalzDockerWithProxy_wrapped(screen_name)
-        child = screen_send_cmd(screen_name, cmd)
-        child.expect("? Enter wallet address (EVM):")
-        child.sendline(wallet_address)
-        child.expect("? Select drive you want to use:  (Use arrow keys)")
-        child.sendline("\n")
-        child.expect(r"\? Enter Disk size of overlay")
-        child.sendline(storage_value)
+        expect_script = f"""
+#!/usr/bin/expect
 
-        save_log(screen_name, wallet_address)
-        print(f"SUCCESS: {screen_name}")
+spawn {cmd}
+
+expect "? Enter wallet address (EVM):"
+send "{wallet_address}\\r"
+
+expect "? Select drive you want to use:  (Use arrow keys)"
+send "\\n"
+
+expect -re "^\\? Enter Disk size of overlay.*"
+send "{storage_value}\\r"
+
+expect eof
+"""
+        screen_send_expect(screen_name, expect_script)
+        # child = screen_send_cmd(screen_name, cmd)
+        # child.expect("? Enter wallet address (EVM):")
+        # child.sendline(wallet_address)
+        # child.expect("? Select drive you want to use:  (Use arrow keys)")
+        # child.sendline("\n")
+        # child.expect(r"\? Enter Disk size of overlay")
+        # child.sendline(storage_value)
+        #
+        # save_log(screen_name, wallet_address)
+        # print(f"SUCCESS: {screen_name}")
     except Exception as e:
         print("ERROR: ", screen_name, e)
         close_screen(screen_name)
