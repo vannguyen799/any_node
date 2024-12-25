@@ -3,8 +3,8 @@ import os
 from concurrent.futures.thread import ThreadPoolExecutor
 import time
 
-import platform
 from datetime import datetime
+import platform
 
 if platform.system() != "Linux":
     raise Exception("Only Linux is supported")
@@ -32,8 +32,7 @@ if not os.path.exists("rivalzDockerWithProxy.sh"):
 def new_screen(screen_name=None):
     screen_name = screen_name or f"rival-{datetime.now().timestamp()}"
 
-    subprocess.run(["screen", "-dmS", screen_name])
-    time.sleep(3)
+    pexpect.spawn(f"screen -dmS '{screen_name}'").wait()
     return screen_name
 
 
