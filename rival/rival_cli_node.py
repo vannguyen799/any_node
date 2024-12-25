@@ -21,15 +21,17 @@ if not os.path.exists('rivalzDockerWithProxy.sh'):
                     'https://gist.githubusercontent.com/NodeFarmer/00b40ca4594ee340ab613eb625ce8db2/raw/rivalzDockerWithProxy.sh'])
     subprocess.run(['chmod', '+x', 'rivalzDockerWithProxy.sh'])
 
-def new_screen(session_name = None):
-    session_name = session_name or 'rival-'   + datetime.now().strftime('%Y%m%d%H%M%S')
+def new_screen(screen_name = None):
+    screen_name = screen_name or 'rival-' + datetime.now().strftime('%Y%m%d%H%M%S')
+    subprocess.run(['screen', '-dmS', screen_name])
+    return screen_name
 
-    subprocess.run(['screen', '-dmS', session_name])
-    return session_name
+def screen_send_cmd(session_name, cmd):
+    child = pexpect.spawn(f'screen -S {session_name} -X stuff "{cmd}\n"')
+    return child
 
-def rivalzDockerWithProxy_wrapped(session_name):
-    command = f"screen -dmS {session_name} bash -c './rivalzDockerWithProxy.sh'" if session_name else'./rivalzDockerWithProxy.sh'
-    child = pexpect.spawn(command)
+def rivalzDockerWithProxy_wrapped(screen_name):
+    child = screen_send_cmd(screen_name, './rivalzDockerWithProxy.sh')
     child.expect('Do you want to use a proxy? (Y/N):')
     child.sendline('N')
     child.expect(pexpect.EOF)
@@ -45,12 +47,11 @@ def save_log(*args):
     with open('rival__log.txt', 'a') as f:
         f.write('\n'.join([str(a) for a in args]) + '\n')
 def setup_node(wallet_address, storage_value):
-    session_name = new_screen()
+    screen_name = new_screen()
     cmd = ''
     try:
-        cmd = rivalzDockerWithProxy_wrapped(session_name)
-        cmd = f"screen -dmS {session_name} bash -c '{cmd}'"
-        child = pexpect.spawn(cmd)
+        cmd = rivalzDockerWithProxy_wrapped(screen_name)
+        child = screen_send_cmd(screen_name, cmd)
         child.expect('? Enter wallet address (EVM):')
         child.sendline(wallet_address)
         child.expect('? Select drive you want to use:  (Use arrow keys)')
@@ -58,11 +59,11 @@ def setup_node(wallet_address, storage_value):
         child.expect(r"\? Enter Disk size of overlay")
         child.sendline(storage_value)
 
-        save_log(session_name, wallet_address)
-        print(f'SUCCESS: {session_name}')
+        save_log(screen_name, wallet_address)
+        print(f'SUCCESS: {screen_name}')
     except Exception as e:
         print(cmd)
-        close_screen(session_name)
+        close_screen(screen_name)
         raise e
 
 
