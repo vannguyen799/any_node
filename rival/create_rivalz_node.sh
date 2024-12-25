@@ -5,6 +5,10 @@ read wallet_address
 echo 'storage_value:'
 read storage_value
 
+if [ ! -f "rivalzDockerWithProxy.sh" ]; then
+  curl -O https://gist.githubusercontent.com/NodeFarmer/00b40ca4594ee340ab613eb625ce8db2/raw/rivalzDockerWithProxy.sh
+  chmod +x rivalzDockerWithProxy.sh
+fi
 last_line=$( echo -e "n" | ./rivalzDockerWithProxy.sh | tail -n 1)
 
 if [[ "$last_line" != docker\ run\ -it\ --name* ]]; then

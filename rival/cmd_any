@@ -1,2 +1,0 @@
-curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/rival_cli_node.py & python3 rival_cli_node.py
-curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/test.py & python3 test.py -w 0x811ef9e1e2B96b59a32E5A69E765eb96f341A3a0 -s 300
