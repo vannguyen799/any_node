@@ -38,24 +38,32 @@ def rivalzDockerWithProxy_wrapped(session_name):
     if not cmd.startswith('docker run -it --name'):
         raise Exception('failed to run rivalzDockerWithProxy.sh got last line:\n' + cmd)
     return cmd
-
+def close_screen(session_name):
+    child = pexpect.spawn(f'screen -S {session_name} -X quit')
+    child.wait()
 def save_log(*args):
     with open('rival__log.txt', 'a') as f:
         f.write('\n'.join([str(a) for a in args]) + '\n')
 def setup_node(wallet_address, storage_value):
-    session_name= new_screen()
-    cmd = rivalzDockerWithProxy_wrapped(session_name)
-    cmd = f"screen -dmS {session_name} bash -c '{cmd}'"
-    child = pexpect.spawn(cmd)
-    child.expect('? Enter wallet address (EVM):')
-    child.sendline(wallet_address)
-    child.expect('? Select drive you want to use:  (Use arrow keys)')
-    child.sendline('\n')
-    child.expect(r"\? Enter Disk size of overlay")
-    child.sendline(storage_value)
+    session_name = new_screen()
+    cmd = ''
+    try:
+        cmd = rivalzDockerWithProxy_wrapped(session_name)
+        cmd = f"screen -dmS {session_name} bash -c '{cmd}'"
+        child = pexpect.spawn(cmd)
+        child.expect('? Enter wallet address (EVM):')
+        child.sendline(wallet_address)
+        child.expect('? Select drive you want to use:  (Use arrow keys)')
+        child.sendline('\n')
+        child.expect(r"\? Enter Disk size of overlay")
+        child.sendline(storage_value)
 
-    save_log(session_name,wallet_address)
-    print(f'SUCCESS: {session_name}' )
+        save_log(session_name, wallet_address)
+        print(f'SUCCESS: {session_name}')
+    except Exception as e:
+        print(cmd)
+        close_screen(session_name)
+        raise e
 
 
 
