@@ -38,8 +38,9 @@ def new_screen(screen_name=None):
 
 
 def screen_send_cmd(session_name, cmd):
-    child = pexpect.spawn(f'screen -S "{session_name}" -X stuff "{cmd}\n"')
-    print(child.command)
+    cmd = f'screen -S "{session_name}" -X stuff "{cmd}\n"'
+    print(cmd)
+    child = pexpect.spawn(cmd)
     return child
 
 
