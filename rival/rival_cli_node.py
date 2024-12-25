@@ -131,5 +131,14 @@ async def main():
         await asyncio.gather(*tasks)
 
 
+def main_sync():
+    wallet_address = w
+    storage_value = int(s)
+    node_number = int(n)
+
+    for _ in range(node_number):
+        screen_name = f"rival-{int(time.time())}"
+
+
 if __name__ == "__main__":
     asyncio.run(main())
