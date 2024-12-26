@@ -205,7 +205,7 @@ echo "$docker_cmd"
 echo "DONE" > $flag_f
 
 expect -c "
-spawn $docker_cmd
+spawn $docker_cmd bash
 set timeout 600
 
 expect {
