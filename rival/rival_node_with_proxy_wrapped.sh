@@ -80,6 +80,8 @@ RUN apt-get update && apt-get install -y curl redsocks iptables iproute2 jq nano
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \\
     apt-get install -y nodejs
 
+RUN ip a
+
 RUN npm install -g npm
 
 # Install the rivalz-node-cli package globally using npm
@@ -88,7 +90,7 @@ RUN npm install -g rivalz-node-cli@$version
 
 
 # Fix Network Issue with Docker
-#RUN curl -fsSL https://gist.githubusercontent.com/NodeFarmer/409d019ce21172b90f479af7c4c742eb/raw/RivalzCLINetworkFix.sh | bash
+RUN curl -fsSL https://gist.githubusercontent.com/NodeFarmer/409d019ce21172b90f479af7c4c742eb/raw/RivalzCLINetworkFix.sh | bash
 
 # Fix Disk Issue
 #RUN curl -fsSL https://gist.githubusercontent.com/NodeFarmer/ef0d404eca8ba76f7c5f6864c4134487/raw/RivalzCLIDiskFix.sh | bash
@@ -205,7 +207,7 @@ echo "$docker_cmd"
 echo "DONE" > $flag_f
 
 expect -c "
-spawn $docker_cmd bash
+spawn $docker_cmd
 set timeout 600
 
 expect {
