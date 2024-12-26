@@ -43,13 +43,18 @@ if [[ "$use_proxy" == "Y" || "$use_proxy" == "y" ]]; then
     read -p "Enter proxy port: " proxy_port
     read -p "Enter proxy username (leave empty if not required): " proxy_username
     read -p "Enter proxy password (leave empty if not required): " proxy_password
-    echo
+    echo "Proxy: Type - $proxy_type, IP - $proxy_ip, Port - $proxy_port, Username - $proxy_username, Password - $proxy_password"
 
     # Adjust proxy type to http-connect if http is chosen
     if [[ "$proxy_type" == "http" ]]; then
         proxy_type="http-connect"
     fi
 fi
+
+read -p "Enter wallet address: " wallet_address
+
+read -p "Enter storage value: " storage_value
+echo "Wallet Address: $wallet_address Storage Value: $storage_value"
 
 # Fetch the latest version of rivalz-node-cli
 version=$(curl -s https://be.rivalz.ai/api-v1/system/rnode-cli-version | jq -r '.data')
@@ -193,8 +198,6 @@ fi
 
 cd ~
 
-read -p "Enter wallet address: " wallet_address
-read -p "Enter storage value: " storage_value
 
 pect -c "
 spawn $docker_cmd
