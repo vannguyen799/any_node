@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# screen -ls | grep 'rival' | awk '{print $1}' | xargs -I{} screen -S {} -X quit
 is_session_active() {
     screen_name=$1
     if screen -ls | grep -q "\.${screen_name}"; then
@@ -9,7 +10,7 @@ is_session_active() {
     fi
 }
 
-if ! curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/rival_node_with_proxy_wrapped.sh; then
+if ! curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/rival_node_with_proxy_wrapped.sh &> /dev/null; then
     echo "Failed to download script.sh"
     exit 1
 fi
@@ -18,7 +19,7 @@ chmod +x rival_node_with_proxy_wrapped.sh
 
 mkdir -p ./tmp
 
-screen -wipe
+screen -wipe &> /dev/null
 
 if [[ ! -f data.csv ]]; then
     echo "data.csv not found"

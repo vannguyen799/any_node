@@ -199,7 +199,7 @@ fi
 cd $HOME || { echo "Failed to change directory to home"; exit 1; }
 
 
-pect -c "
+expect -c "
 spawn $docker_cmd
 set timeout 180
 
