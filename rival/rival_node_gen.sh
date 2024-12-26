@@ -44,6 +44,7 @@ while IFS=',' read -r wallet_address storage_value screen_name proxy_type proxy_
             until [ -f "$fcheck" ]; do
                 sleep 1
             done
+            echo "Done"
         fi
     fi
     sleep 0.2
