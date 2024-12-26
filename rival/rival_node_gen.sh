@@ -52,7 +52,8 @@ while IFS=',' read -r wallet_address storage_value screen_name proxy_type proxy_
             done
             echo "Done"
             sleep 1
-
+        else
+            echo "Skipping: $screen_name - $wallet_address $storage_value $proxy_ip:$proxy_port:$proxy_username:$proxy_password"
         fi
     fi
     sleep 0.2
