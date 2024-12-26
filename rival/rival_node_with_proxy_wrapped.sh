@@ -48,9 +48,9 @@ if [[ "$use_proxy" == "Y" || "$use_proxy" == "y" ]]; then
     echo "Proxy: Type - $proxy_type, IP - $proxy_ip, Port - $proxy_port, Username - $proxy_username, Password - $proxy_password"
 
     # Adjust proxy type to http-connect if http is chosen
-#    if [[ "$proxy_type" == "http" ]]; then
-#        proxy_type="http-connect"
-#    fi
+    if [[ "$proxy_type" == "http" ]]; then
+        proxy_type="http-connect"
+    fi
 fi
 
 read -p "Enter wallet address: " wallet_address
@@ -82,7 +82,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \\
 
 
 RUN npm install -g npm
-
+RUN npm config set strict-ssl true
 # Install the rivalz-node-cli package globally using npm
 RUN npm install -g rivalz-node-cli@$version
 
