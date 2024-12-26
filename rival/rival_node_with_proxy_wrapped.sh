@@ -196,7 +196,7 @@ else
     echo "docker run -it --name $container_name $container_name" >> docker_cmd
 fi
 
-cd ~
+cd $HOME || { echo "Failed to change directory to home"; exit 1; }
 
 
 pect -c "
