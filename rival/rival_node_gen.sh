@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# screen -ls | grep 'rival' | awk '{print $1}' | xargs -I{} screen -S {} -X quit
+# screen -ls | grep 'rival' | awk '{print $1}' | xargs -I{} screen -S {} -X quit && screen -ls
 
 # curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/rival_node_gen.sh &> /dev/null && chmod +x rival_node_gen.sh && ./rival_node_gen.sh
 
@@ -51,6 +51,8 @@ while IFS=',' read -r wallet_address storage_value screen_name proxy_type proxy_
                 sleep 1
             done
             echo "Done"
+            sleep 1
+
         fi
     fi
     sleep 0.2
