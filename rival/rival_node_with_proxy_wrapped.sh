@@ -206,7 +206,7 @@ echo "DONE" > $flag_f
 
 expect -c "
 spawn $docker_cmd
-set timeout 180
+set timeout 600
 
 expect {
     -re \"(?i).*Enter wallet address.*\" {
@@ -238,6 +238,6 @@ expect {
         exit 1
     }
 }
-
+exec echo \"DONE\" > $flag_f
 expect eof
 "
