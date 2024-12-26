@@ -191,9 +191,11 @@ docker build -t $container_name .
 docker_cmd=''
 echo -e "\e[32mSetup is complete. To run the Docker container, use the following command:\e[0m"
 if [[ "$use_proxy" == "Y" || "$use_proxy" == "y" ]]; then
-    echo "docker run -it --cap-add=NET_ADMIN --name $container_name $container_name" >> docker_cmd
+    echo "docker run -it --cap-add=NET_ADMIN --name $container_name $container_name"
+    docker_cmd="docker run -it --cap-add=NET_ADMIN --name $container_name $container_name"
 else
     echo "docker run -it --name $container_name $container_name" >> docker_cmd
+    docker_cmd="docker run -it --name $container_name $container_name"
 fi
 
 cd $HOME || { echo "Failed to change directory to home"; exit 1; }
