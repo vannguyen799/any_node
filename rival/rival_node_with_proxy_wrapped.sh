@@ -1,4 +1,6 @@
 #!/bin/bash
+flag_f='./tmp/rival_node_with_proxy_wrapped_flag.log'
+rm -f $flag_f
 
 # Install jq
 echo "Installing jq..."
@@ -199,6 +201,9 @@ fi
 cd $HOME || { echo "Failed to change directory to home"; exit 1; }
 
 echo "$docker_cmd"
+
+echo "DONE" > $flag_f
+
 expect -c "
 spawn $docker_cmd
 set timeout 180

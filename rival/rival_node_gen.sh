@@ -15,7 +15,7 @@ is_session_active() {
 }
 
 if ! curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/rival_node_with_proxy_wrapped.sh &> /dev/null; then
-    echo "Failed to download script.sh"
+    echo "Failed to download rival_node_with_proxy_wrapped.sh"
     exit 1
 fi
 
@@ -36,9 +36,10 @@ while IFS=',' read -r wallet_address storage_value screen_name proxy_type proxy_
         storage_value=$(printf "%d" "$storage_value" 2>/dev/null)
 
         if ! is_session_active "$screen_name"; then
-            fcheck="./tmp/$screen_name$(date +%s).log"
-            cmd="echo -e \"y\n$proxy_type\n$proxy_ip\n$proxy_port\n$proxy_username\n$proxy_password\n$wallet_address\n$storage_value\" | ./rival_node_with_proxy_wrapped.sh; echo $screen_name > $fcheck; sleep infinity"
-
+#            fcheck="./tmp/$screen_name$(date +%s).log"
+            cmd="echo -e \"y\n$proxy_type\n$proxy_ip\n$proxy_port\n$proxy_username\n$proxy_password\n$wallet_address\n$storage_value\" | ./rival_node_with_proxy_wrapped.sh; sleep infinity"
+            flag_f='./tmp/rival_node_with_proxy_wrapped_flag.log'
+            rm -f $flag_f
             echo "Processing: $screen_name - $wallet_address $storage_value $proxy_ip:$proxy_port:$proxy_username:$proxy_password"
             screen -dmS "$screen_name" bash -c "$cmd"
             if [[ $? -ne 0 ]]; then
@@ -46,7 +47,7 @@ while IFS=',' read -r wallet_address storage_value screen_name proxy_type proxy_
                 continue
             fi
 
-            until [ -f "$fcheck" ]; do
+            until [ -f "$flag_f" ]; do
                 sleep 1
             done
             echo "Done"
@@ -54,3 +55,5 @@ while IFS=',' read -r wallet_address storage_value screen_name proxy_type proxy_
     fi
     sleep 0.2
 done < data.csv
+
+rm -f rival_node_with_proxy_wrapped.sh
