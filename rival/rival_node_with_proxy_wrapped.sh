@@ -48,9 +48,9 @@ if [[ "$use_proxy" == "Y" || "$use_proxy" == "y" ]]; then
     echo "Proxy: Type - $proxy_type, IP - $proxy_ip, Port - $proxy_port, Username - $proxy_username, Password - $proxy_password"
 
     # Adjust proxy type to http-connect if http is chosen
-    if [[ "$proxy_type" == "http" ]]; then
-        proxy_type="http-connect"
-    fi
+#    if [[ "$proxy_type" == "http" ]]; then
+#        proxy_type="http-connect"
+#    fi
 fi
 
 read -p "Enter wallet address: " wallet_address
@@ -80,7 +80,6 @@ RUN apt-get update && apt-get install -y curl redsocks iptables iproute2 jq nano
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \\
     apt-get install -y nodejs
 
-RUN ip a
 
 RUN npm install -g npm
 
@@ -90,7 +89,7 @@ RUN npm install -g rivalz-node-cli@$version
 
 
 # Fix Network Issue with Docker
-#RUN curl -fsSL https://gist.githubusercontent.com/NodeFarmer/409d019ce21172b90f479af7c4c742eb/raw/RivalzCLINetworkFix.sh | bash
+RUN curl -fsSL https://gist.githubusercontent.com/NodeFarmer/409d019ce21172b90f479af7c4c742eb/raw/RivalzCLINetworkFix.sh | bash
 
 # Fix Disk Issue
 #RUN curl -fsSL https://gist.githubusercontent.com/NodeFarmer/ef0d404eca8ba76f7c5f6864c4134487/raw/RivalzCLIDiskFix.sh | bash
