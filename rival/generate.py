@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     subprocess.run("screen -wipe", check=True, shell=True)
 
-    data = pd.read_csv("data.csv").to_dict(orient="records")
+    data = pd.read_csv(".data.csv").to_dict(orient="records")
 
     for row in data:
         screen_name = row["screen_name"]
