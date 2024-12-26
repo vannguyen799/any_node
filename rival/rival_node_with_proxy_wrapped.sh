@@ -90,7 +90,7 @@ RUN npm install -g rivalz-node-cli@$version
 
 
 # Fix Network Issue with Docker
-RUN curl -fsSL https://gist.githubusercontent.com/NodeFarmer/409d019ce21172b90f479af7c4c742eb/raw/RivalzCLINetworkFix.sh | bash
+#RUN curl -fsSL https://gist.githubusercontent.com/NodeFarmer/409d019ce21172b90f479af7c4c742eb/raw/RivalzCLINetworkFix.sh | bash
 
 # Fix Disk Issue
 #RUN curl -fsSL https://gist.githubusercontent.com/NodeFarmer/ef0d404eca8ba76f7c5f6864c4134487/raw/RivalzCLIDiskFix.sh | bash
