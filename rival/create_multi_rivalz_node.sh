@@ -15,7 +15,7 @@ read node_number
 
 # curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/create_multi_rivalz_node.sh && chmod +x create_multi_rivalz_node.sh && ./create_multi_rivalz_node.sh
 curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/create_rivalz_node.sh
-chmod +x create_rivalz_node.sh
+chmod +x _create_rivalz_node.sh
 
 for i in $(seq 1 $node_number); do
   name="rival-$wallet_address-$(date +%s)-$i"

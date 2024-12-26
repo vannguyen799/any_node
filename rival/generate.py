@@ -27,24 +27,23 @@ def is_session_active(screen_name):
 
 
 if __name__ == "__main__":
-    if "create_rivalz_node_screen.sh" not in os.listdir():
-        subprocess.run(
-            "curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/create_rivalz_node_screen.sh "
-            "&& chmod +x create_rivalz_node_screen.sh",
-            shell=True,
-            check=True,
-        )
-    if "create_rivalz_node.sh" not in os.listdir():
-        subprocess.run(
-            "curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/create_rivalz_node.sh "
-            "&& chmod +x create_rivalz_node.sh",
-            shell=True,
-            check=True,
-        )
+
+    subprocess.run(
+        "curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/create_rivalz_node_screen.sh "
+        "&& chmod +x create_rivalz_node_screen.sh",
+        shell=True,
+        check=True,
+    )
+    subprocess.run(
+        "curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/create_rivalz_node.sh "
+        "&& chmod +x _create_rivalz_node.sh",
+        shell=True,
+        check=True,
+    )
 
     subprocess.run("screen -wipe", check=True, shell=True)
 
-    data = pd.read_csv(".data.csv").to_dict(orient="records")
+    data = pd.read_csv("data.csv").to_dict(orient="records")
 
     for row in data:
         screen_name = row["screen_name"]
@@ -57,8 +56,14 @@ if __name__ == "__main__":
         proxy_password = row["proxy_password"]
 
         if not is_session_active(screen_name):
-            cmd = f"echo -e '{wallet_address}\n{storage_value}\n{proxy_type}\n{proxy_ip}\n{proxy_port}\n{proxy_username}\n{proxy_password}' | ./create_rivalz_node_screen.sh"
-            subprocess.run(
-                f"{cmd} | ./create_rivalz_node_screen.sh", shell=True, check=True
-            )
+            cmd = [
+                "echo",
+                "-e",
+                f'"{screen_name}\n{wallet_address}\n{storage_value}\n{proxy_type}\n{proxy_ip}\n{proxy_port}\n{proxy_username}\n{proxy_password}"',
+                "|",
+                "./create_rivalz_node_screen.sh",
+            ]
+
+            print(" ".join(cmd))
+            subprocess.run(cmd, shell=True, check=True)
         time.sleep(0.2)

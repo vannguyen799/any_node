@@ -42,41 +42,5 @@ fi
 echo "start $last_line"
 
 
-expect -c "
-spawn $last_line
-set timeout 180
-
-expect {
-    -re \"(?i).*Enter wallet address.*\" {
-        send \"$wallet_address\r\"
-    }
-    timeout {
-        puts \"Timeout waiting for wallet address prompt\"
-        exit 1
-    }
-}
-
-expect {
-    -re \"(?i).*Select drive you want to use.*\" {
-        send \"\r\"
-    }
-    timeout {
-        puts \"Timeout waiting for drive selection prompt\"
-        exit 1
-    }
-}
-
-expect {
-    -re \"(?i).*Enter Disk size.*\" {
-
-        send \"$storage_value\r\"
-    }
-    timeout {
-        puts \"Timeout waiting for storage value prompt\"
-        exit 1
-    }
-}
-
-expect eof
-"
+ex
 
