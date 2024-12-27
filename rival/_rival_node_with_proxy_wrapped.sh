@@ -80,38 +80,80 @@ RUN apt-get update && apt-get install -y curl redsocks iptables iproute2 jq nano
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \\
     apt-get install -y nodejs
 
+
 RUN npm install -g npm
 RUN npm config set strict-ssl false
 # Install the rivalz-node-cli package globally using npm
 RUN npm install -g rivalz-node-cli@$version
 
-RUN cd /usr/lib/node_modules/rivalz-node-cli && npm install
+
 
 # Fix Network Issue with Docker
-#RUN curl -fsSL https://gist.githubusercontent.com/NodeFarmer/409d019ce21172b90f479af7c4c742eb/raw/RivalzCLINetworkFix.sh | bash
+RUN curl -fsSL https://gist.githubusercontent.com/NodeFarmer/409d019ce21172b90f479af7c4c742eb/raw/RivalzCLINetworkFix.sh | bash
 
 # Fix Disk Issue
 #RUN curl -fsSL https://gist.githubusercontent.com/NodeFarmer/ef0d404eca8ba76f7c5f6864c4134487/raw/RivalzCLIDiskFix.sh | bash
 
 EOL
 
-# Only add redsocks configuration and entrypoint if proxy is used
+cat <<'EOL' > auto_run.sh
+spawn rivalz run
+
+set timeout 600
+
+expect {
+    -re "(?i).*Enter wallet address.*" {
+        send "$wallet_address\r"
+    }
+    timeout {
+        puts "Timeout waiting for wallet address prompt"
+        exit 1
+    }
+}
+
+# Wait for the "Select drive you want to use" prompt and send a blank carriage return
+expect {
+    -re "(?i).*Select drive you want to use.*" {
+        send "\r"
+    }
+    timeout {
+        puts "Timeout waiting for drive selection prompt"
+        exit 1
+    }
+}
+
+# Wait for the "Enter Disk size" prompt and send the storage value
+expect {
+    -re "(?i).*Enter Disk size.*" {
+        send "$storage_value\r"
+    }
+    timeout {
+        puts "Timeout waiting for storage value prompt"
+        exit 1
+    }
+}
+
+
+expect eof
+
+EOL
+
+
 if [[ "$use_proxy" == "Y" || "$use_proxy" == "y" ]]; then
     cat <<EOL >> Dockerfile
-# Copy the redsocks configuration
 COPY redsocks.conf /etc/redsocks.conf
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Set entrypoint to the script
+COPY auto_run.sh /usr/local/bin/auto_run.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
 EOL
 fi
 
-# Add the common CMD instruction for all cases
 cat <<EOL >> Dockerfile
-# Run the rivalz command and then open a shell
-CMD ["bash", "-c", "cd /usr/lib/node_modules/rivalz-node-cli && rivalz run; exec /bin/bash"]
+CMD ["bash", "-c", "cd /usr/lib/node_modules/rivalz-node-cli && npm install && rivalz run; exec /bin/bash"]
 EOL
 
 # Create the redsocks configuration file only if proxy is used
