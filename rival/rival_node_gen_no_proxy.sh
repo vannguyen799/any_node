@@ -29,10 +29,11 @@ read -p "Enter wallet_address " wallet_address
 read -p "Enter storage_value " storage_value
 read -p "Enter node number to create : " node_number
 
-for ((i=1; i<=node_number; i++))
-do
+echo "Creating $node_number rival node(s) with no proxy..."
+
+for i in $(seq 1 $node_number); do
   screen_name="rival_node_$i$(date +%s)"
-  echo "$i screen $screen_name start"
+  echo "Node $i screen $screen_name start"
   cmd="echo -e \"n\n$wallet_address\n$storage_value\" | ./rival_node_with_proxy_wrapped.sh; sleep infinity"
 
   flag_f='./tmp/rival_node_with_proxy_wrapped_flag.log'
@@ -40,7 +41,8 @@ do
 
   screen -dmS "$screen_name" bash -c "$cmd"
   until [ -f "$flag_f" ]; do
-    sleep 1
+    echo -n '.'
+    sleep 2
   done
   echo "Done"
   sleep 5
