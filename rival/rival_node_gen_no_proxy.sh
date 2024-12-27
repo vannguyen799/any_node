@@ -59,6 +59,7 @@ check_file_exists() {
 for i in $(seq 1 $node_number); do
   cd $HOME
   rm $flag_f
+  sleep 1
 
   screen_name="rival_node_$i$(date +%s)"
   echo "Node $i screen $screen_name start"
@@ -71,7 +72,7 @@ for i in $(seq 1 $node_number); do
   sleep 2
 done
   echo "Done"
-  sleep 5
+  sleep 4
 done
 
 
