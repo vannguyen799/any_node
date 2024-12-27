@@ -57,6 +57,7 @@ check_file_exists() {
 
 
 for i in $(seq 1 $node_number); do
+  cd $HOME
   rm $flag_f
 
   screen_name="rival_node_$i$(date +%s)"

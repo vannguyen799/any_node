@@ -205,18 +205,19 @@ echo "$docker_cmd"
 
 read -p "Enter flag_f " flag_f
 echo "$flag_f"
-echo docker_cmd > "$flag_f"
-
-if [[ -f "$flag_f" ]]; then
-  echo "File '$flag_f' created successfully."
-else
-  echo "Failed to create file '$flag_f'."
-fi
+#echo docker_cmd > "$flag_f"
+#
+#if [[ -f "$flag_f" ]]; then
+#  echo "File '$flag_f' created successfully."
+#else
+#  echo "Failed to create file '$flag_f'."
+#fi
 
 
 expect -c "
 spawn $docker_cmd
 set timeout 600
+exec echo \"DONE\" > $flag_f
 
 expect {
     -re \"(?i).*Enter wallet address.*\" {
