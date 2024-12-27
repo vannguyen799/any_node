@@ -71,7 +71,7 @@ for i in $(seq 1 $node_number); do
   echo -n '.'
   sleep 2
 done
-  echo "Done"
+  echo " Done"
   sleep 4
 done
 
