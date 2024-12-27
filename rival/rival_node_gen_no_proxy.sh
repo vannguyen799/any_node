@@ -35,17 +35,14 @@ flag_f="rival_node_with_proxy_wrapped_flag.log"
 check_file_exists() {
   cd $HOME
 
-  # Method 1: Using -f (test operator)
   if [[ -f "$flag_f" ]]; then
     return 0
   fi
 
-  # Method 2: Using test command (same as -f but different style)
   if test -f "$flag_f"; then
     return 0
   fi
 
-  # Method 3: Using ls command
   if ls "$flag_f" &>/dev/null; then
     return 0
   fi
@@ -55,7 +52,6 @@ check_file_exists() {
     return 0
   fi
 
-  # If none of the checks succeed, return 1
   return 1
 }
 
