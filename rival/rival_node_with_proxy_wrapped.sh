@@ -188,7 +188,7 @@ fi
 container_name="rivalz-docker-$instance_number"
 
 # Build the Docker image with the specified name
-docker build -t $container_name .
+docker build -t "$container_name-$(date +%s)" .
 
 # Display the completion message
 docker_cmd=''
