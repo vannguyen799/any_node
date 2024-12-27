@@ -37,7 +37,7 @@ for i in $(seq 1 $node_number); do
   cmd="echo -e \"n\n$wallet_address\n$storage_value\" | ./rival_node_with_proxy_wrapped.sh; sleep infinity"
 
   flag_f="./tmp/rival_node_with_proxy_wrapped_flag.log"
-  rm -f $flag_f
+  rm $flag_f
 
   screen -dmS "$screen_name" bash -c "$cmd"
   until [ -f "$flag_f" ]; do

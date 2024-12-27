@@ -1,6 +1,9 @@
 #!/bin/bash
 flag_f="./tmp/rival_node_with_proxy_wrapped_flag.log"
-rm -f $flag_f
+if [ -f "$flag_f" ]; then
+  rm $flag_f
+  exit 0
+fi
 
 # Install jq
 echo "Installing jq..."
