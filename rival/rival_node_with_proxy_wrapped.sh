@@ -1,9 +1,7 @@
 #!/bin/bash
 flag_f="./tmp/rival_node_with_proxy_wrapped_flag.log"
-if [ -f "$flag_f" ]; then
   rm $flag_f
-  exit 0
-fi
+
 
 # Install jq
 echo "Installing jq..."
@@ -206,6 +204,7 @@ cd $HOME || { echo "Failed to change directory to home"; exit 1; }
 
 echo "$docker_cmd"
 
+echo "$flag_f"
 echo "DONE" > "$flag_f"
 
 expect -c "
