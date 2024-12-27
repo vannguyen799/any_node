@@ -1,6 +1,5 @@
 #!/bin/bash
-flag_f="rival_node_with_proxy_wrapped_flag.log"
-rm $flag_f
+
 
 
 # Install jq
@@ -204,8 +203,9 @@ cd $HOME || { echo "Failed to change directory to home"; exit 1; }
 
 echo "$docker_cmd"
 
+read -p "Enter flag_f " flag_f
 echo "$flag_f"
-echo "DONE" > "$flag_f"
+echo "DONE" > $flag_f
 
 expect -c "
 spawn $docker_cmd
