@@ -67,6 +67,7 @@ for i in $(seq 1 $node_number); do
   cmd="echo -e \"n\n$wallet_address\n$storage_value\n$flag_f\" | ./rival_node_with_proxy_wrapped.sh; sleep infinity"
 
   screen -dmS "$screen_name" bash -c "$cmd"
+
   while ! check_file_exists; do
   echo -n '.'
   sleep 2

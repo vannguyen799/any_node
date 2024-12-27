@@ -205,7 +205,7 @@ echo "$docker_cmd"
 
 read -p "Enter flag_f " flag_f
 echo "$flag_f"
-echo "DONE" > $flag_f
+echo "DONE" > "$flag_f"
 
 expect -c "
 spawn $docker_cmd
