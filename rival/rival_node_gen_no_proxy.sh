@@ -71,7 +71,6 @@ for i in $(seq 1 $node_number); do
   screen -dmS "$screen_name" bash -c "$cmd"
   while ! check_file_exists; do
   echo -n '.'
-  ls
   sleep 2
 done
   echo "Done"

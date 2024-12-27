@@ -185,7 +185,7 @@ else
 fi
 
 # Set the container name
-container_name="rivalz-docker-$instance_number-$(date %s)"
+container_name="rivalz-docker-$instance_number-$(date +%s)"
 
 # Build the Docker image with the specified name
 docker build -t "$container_name" .
