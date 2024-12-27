@@ -1,6 +1,6 @@
 #!/bin/bash
-flag_f="./tmp/rival_node_with_proxy_wrapped_flag.log"
-  rm $flag_f
+flag_f="rival_node_with_proxy_wrapped_flag.log"
+rm $flag_f
 
 
 # Install jq
