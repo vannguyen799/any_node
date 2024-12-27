@@ -8,6 +8,7 @@ sudo apt update
 sudo apt install -y jq
 echo "jq installed successfully."
 
+
 # Install Docker
 echo "Installing Docker..."
 sudo apt update
@@ -202,7 +203,7 @@ cd $HOME || { echo "Failed to change directory to home"; exit 1; }
 
 echo "$docker_cmd"
 
-echo "DONE" > $flag_f
+echo "DONE" > "$flag_f"
 
 expect -c "
 spawn $docker_cmd
