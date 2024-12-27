@@ -46,7 +46,6 @@ while IFS=',' read -r wallet_address storage_value screen_name proxy_type proxy_
                 echo "Failed to execute command for $screen_name" >> error.log
                 continue
             fi
-            cd $HOME
 
             until [ -f "$flag_f" ]; do
                 sleep 1
