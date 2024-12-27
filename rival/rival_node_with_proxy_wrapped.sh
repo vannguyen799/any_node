@@ -1,5 +1,5 @@
 #!/bin/bash
-flag_f='./tmp/rival_node_with_proxy_wrapped_flag.log'
+flag_f="./tmp/rival_node_with_proxy_wrapped_flag.log"
 rm -f $flag_f
 
 # Install jq
@@ -239,6 +239,5 @@ expect {
         exit 1
     }
 }
-exec echo \"DONE\" > $flag_f
 expect eof
 "
