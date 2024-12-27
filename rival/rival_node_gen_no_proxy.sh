@@ -62,7 +62,7 @@ for i in $(seq 1 $node_number); do
   sleep 1
 
   screen_name="rival_node_$i$(date +%s)"
-  echo "Node $i screen $screen_name start"
+  echo "START NODE $i screen -r $screen_name "
 
   cmd="echo -e \"n\n$wallet_address\n$storage_value\n$flag_f\" | ./rival_node_with_proxy_wrapped.sh; sleep infinity"
 
