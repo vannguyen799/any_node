@@ -6,15 +6,6 @@
 
 cd $HOME
 
-is_session_active() {
-    screen_name=$1
-    if screen -ls | grep -q "\.${screen_name}"; then
-        return 0 # session active
-    else
-        return 1 # session not active
-    fi
-}
-
 if ! curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/rival_node_with_proxy_wrapped.sh &> /dev/null; then
     echo "Failed to download rival_node_with_proxy_wrapped.sh"
     exit 1
