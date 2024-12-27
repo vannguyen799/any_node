@@ -4,6 +4,7 @@
 
 # curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/rival_node_gen_no_proxy.sh &> /dev/null && chmod +x rival_node_gen_no_proxy.sh && ./rival_node_gen_no_proxy.sh
 
+cd $HOME
 
 is_session_active() {
     screen_name=$1
