@@ -37,7 +37,7 @@ while IFS=',' read -r wallet_address storage_value screen_name proxy_type proxy_
 
         if ! is_session_active "$screen_name"; then
 #            fcheck="./tmp/$screen_name$(date +%s).log"
-            cmd="echo -e \"y\n$proxy_type\n$proxy_ip\n$proxy_port\n$proxy_username\n$proxy_password\n$wallet_address\n$storage_value\" | ./rival_node_with_proxy_wrapped.sh; sleep infinity"
+            cmd="echo -e \"y\n$proxy_type\n$proxy_ip\n$proxy_port\n$proxy_username\n$proxy_password\n$wallet_address\n$storage_value\n$flag_f\" | ./rival_node_with_proxy_wrapped.sh; sleep infinity"
             flag_f='./tmp/rival_node_with_proxy_wrapped_flag.log'
             rm -f $flag_f
             echo "Processing: $screen_name - $wallet_address $storage_value $proxy_ip:$proxy_port:$proxy_username:$proxy_password"
