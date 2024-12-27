@@ -2,7 +2,7 @@
 
 # screen -ls | grep 'rival' | awk '{print $1}' | xargs -I{} screen -S {} -X quit && screen -ls
 
-# curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/rival_node_gen.sh &> /dev/null && chmod +x rival_node_gen.sh && ./rival_node_gen.sh
+# curl -O https://raw.githubusercontent.com/vannguyen799/any_node/refs/heads/master/rival/rival_node_gen_no_proxy.sh &> /dev/null && chmod +x rival_node_gen_no_proxy.sh && ./rival_node_gen_no_proxy.sh
 
 
 is_session_active() {
