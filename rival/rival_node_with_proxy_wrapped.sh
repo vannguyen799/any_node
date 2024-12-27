@@ -82,7 +82,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \\
 
 
 RUN npm install -g npm
-RUN npm config set strict-ssl true
+RUN npm config set strict-ssl false
 # Install the rivalz-node-cli package globally using npm
 RUN npm install -g rivalz-node-cli@$version
 
